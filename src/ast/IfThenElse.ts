@@ -1,0 +1,24 @@
+import { BExp, Stmt } from './ASTNode';
+
+/**
+  Representación de las sentencias condicionales.
+*/
+export class IfThenElse implements Stmt {
+  cond: BExp;
+  thenBody: Stmt;
+  elseBody: Stmt;
+
+  constructor(cond: BExp, thenBody: Stmt, elseBody: Stmt) {
+    this.cond = cond;
+    this.thenBody = thenBody;
+    this.elseBody = elseBody;
+  }
+
+  toString(): string {
+    return `IfThenElse(${this.cond.toString()}, ${this.thenBody.toString()}, ${this.elseBody.toString()})`;
+  }
+
+  unparse(): string {
+    return `if ${this.cond.unparse()} then { ${this.thenBody.unparse()} } else { ${this.elseBody.unparse()} }`;
+  }
+}

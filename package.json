@@ -4,5 +4,22 @@
   "description": "Implementación del lenguaje While en TypeScript.",
   "author": "Juan Ignacio Laube",
   "license": "MIT",
-  "main": "index.js"
+  "main": "index.js",
+  "dependencies": {
+    "@types/moo": "^0.3.0",
+    "@types/nearley": "^2.9.0",
+    "@types/node": "^8.0.19",
+    "@types/readline-sync": "^1.4.2",
+    "moo": "^0.4.0",
+    "nearley": "^2.10.2",
+    "readline-sync": "^1.4.7"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-run": "^1.7.1",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-typescript": "^3.2.1",
+    "typescript": "^2.4.2"
+  }
 }
