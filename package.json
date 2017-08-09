@@ -4,7 +4,7 @@
   "description": "Implementación del lenguaje While en TypeScript.",
   "author": "Juan Ignacio Laube",
   "license": "MIT",
-  "main": "index.js",
+  "main": "bin/main.js",
   "dependencies": {
     "@types/moo": "^0.3.0",
     "@types/nearley": "^2.9.0",

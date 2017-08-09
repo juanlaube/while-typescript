@@ -19,10 +19,8 @@ while (true) {
     // Parse user input
     parser.feed(input);
     // Print result
-    const output = parser.results
-      .filter((node) => (node !== undefined))
-      .map((node) => (node.toString()))
-    console.log(output);
+    const node: ASTNode = parser.results[0];
+    console.log(node.toString());
 
   } catch(parseError) {
     console.log(parseError);

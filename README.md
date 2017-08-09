@@ -3,41 +3,23 @@
 Implementación del lenguaje While en TypeScript.
 
 
-## Instalación y dependencias
+### Dependencias
 
-Clonar el repositorio y moverse en un terminal al directorio de trabajo.
+1. Descargar e instalar [Node.js](https://nodejs.org).
 
-### Instalar Node.js
+1. Instalar [Gulp](http://gulpjs.com). Gulp es una herramienta de ejecución de tareas. Lo utilizaremos para coordinar la generación de la gramatica y compilar los fuentes en TypeScript.
+```
+npm install -g gulp-cli
+```
 
-Este proyecto compila TypeScript a JavaScript para ser ejecutado en Node. [Ver instrucciones de instalación.](https://nodejs.org)
-
-
-### Nearley
-
-Nearley es un parser que utiliza el algorimo [earley](https://en.wikipedia.org/wiki/Earley_parser) y permite generar la gramatica a partir de una especificación.
-
-Para instalar nearley:
-
-```bash
+1. Instalar [Nearley](http://nearley.js.org). Nearley es un generador de parser basado en el  [parser de earley](https://en.wikipedia.org/wiki/Earley_parser).
+```
 npm install -g nearley
 ```
 
 
-### Gulp
+## Build
 
-Para compilar TypeScript, ejecutar tareas y generar la gramatica con Nearley, se utiliza Gulp.
+Clonar el repositorio y moverse en un terminal al directorio de trabajo.
 
-Para instalar gulp:
-```bash
-npm install -g gulp-cli
-```
-
-
-## Compilación
-
-Para compilar el proyecto, alcanza con ejecutar el comando `gulp`. Esto generará la gramatica y compilar los fuentes en TypeScript.
-
-
-## Debug
-
-Coming soon...
+Gulp se encargará de generar la gramatica y compilar los fuentes. Para compilar el proyecto, ejecutar `gulp` desde un terminal.

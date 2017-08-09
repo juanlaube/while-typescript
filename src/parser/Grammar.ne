@@ -74,7 +74,7 @@ comp ->
   | neg
 
 neg ->
-    "!" bvalue                {% ([, exp]) => (new Negation(exp)) %}
+    "!" bvalue              {% ([, exp]) => (new Negation(exp)) %}
   | bvalue                  {% id %}
 
 bvalue ->
