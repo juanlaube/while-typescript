@@ -6,6 +6,7 @@ export * from './Assignment';
 export * from './IfThenElse';
 export * from './Sequence';
 export * from './WhileDo';
+export * from './Skip';
 
 // AExp
 export * from './Addition';
