@@ -24,6 +24,7 @@ export const tokens = {
   'skip':       'skip',
   'true':       'true',
   'false':      'false',
+  
 
   // Atoms
   number:       { match: /[0-9]+/, value: (x: string) => (parseFloat(x)) },
@@ -32,5 +33,6 @@ export const tokens = {
   identifier:   /[a-zA-Z_$][a-zA-Z0-9_$]*/,
 
   // Ignored tokens
-  _ws:          { match: /[ \t\r\n\f\v]+/, lineBreaks: true },
+  _ws:          { match: /[ \t\r\n\f\v]+|\/\*+[^\*\/]*\*+\/ /, lineBreaks: true }
+
 };
