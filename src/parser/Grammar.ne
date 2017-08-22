@@ -57,6 +57,7 @@ muldiv ->
 avalue ->
     "(" aexp ")"            {% ([, aexp, ]) => (aexp) %}
   | number                  {% ([num]) => (new Numeral(num)) %}
+  | hexadecimal             {% ([hex]) =>  (new Numeral(hex)) %}
   | identifier              {% ([id]) => (new Variable(id)) %}
 
 
@@ -89,3 +90,4 @@ bvalue ->
 
 identifier -> %identifier   {% ([id]) => (id.value) %}
 number -> %number           {% ([num]) => (num.value) %}
+hexadecimal -> %hexadecimal {% ([hex]) => (hex.value) %}
