@@ -23,3 +23,10 @@ npm install -g nearley
 Clonar el repositorio y moverse en un terminal al directorio de trabajo.
 
 Gulp se encargará de generar la gramatica y compilar los fuentes. Para compilar el proyecto, ejecutar `gulp` desde un terminal.
+
+
+## Ejecucion
+
+Moverse en un terminal al directorio de trabajo/bin.
+
+ejecutar el comando 'node main.js'. Se recomienda tener la ultima version de NodeJs instalada.
