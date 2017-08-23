@@ -34,6 +34,7 @@ hexadecimal:       { match: /0[xX][0-9A-Fa-f]+/, value: (x: string) => (parseInt
   identifier:   /[a-zA-Z_][a-zA-Z0-9_]*/,
 
   // Ignored tokens
-  _ws:          { match: /[ \t\r\n\f\v]+|\/\*+[^\*\/]*\*+\/ /, lineBreaks: true }
+  _comments:   { match: /\/\*+[^\*\/]*\*+\//, lineBreaks: true },
+  _ws:          { match: /[ \t\r\n\f\v]+/, lineBreaks: true }
 
 };
