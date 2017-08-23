@@ -16,7 +16,8 @@ import {
   Substraction,
   TruthValue,
   Variable,
-  WhileDo
+  WhileDo,
+  Skip
 } from '../ast/AST';
 
 import { tokens } from './Tokens';
@@ -33,7 +34,7 @@ const lexer = new MyLexer(tokens);
 
 stmt ->
     identifier "=" aexp ";"               {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
-  | "skip" ";"                            {% () => {} %}
+  | "skip" ";"                            {% () => (new Skip()) %}
   | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
   | "while" bexp "do" stmt                {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
   | "if" bexp "then" stmt "else" stmt     {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
@@ -56,6 +57,7 @@ muldiv ->
 avalue ->
     "(" aexp ")"            {% ([, aexp, ]) => (aexp) %}
   | number                  {% ([num]) => (new Numeral(num)) %}
+  | hexadecimal             {% ([hex]) =>  (new Numeral(hex)) %}
   | identifier              {% ([id]) => (new Variable(id)) %}
 
 
@@ -88,3 +90,4 @@ bvalue ->
 
 identifier -> %identifier   {% ([id]) => (id.value) %}
 number -> %number           {% ([num]) => (num.value) %}
+hexadecimal -> %hexadecimal {% ([hex]) => (hex.value) %}
