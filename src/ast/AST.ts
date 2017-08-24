@@ -10,6 +10,7 @@ export * from './WhileDo';
 // AExp
 export * from './Addition';
 export * from './Multiplication';
+export * from './Division';
 export * from './Numeral';
 export * from './Substraction';
 export * from './Variable';

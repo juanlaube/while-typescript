@@ -14,6 +14,7 @@ export const tokens = {
   '<=':         '<=',
   '==':         '==',
   '=':          '=',
+  '/':			'/',
 
   // Keywords
   'do':         'do',
@@ -27,9 +28,9 @@ export const tokens = {
 
 
   // Atoms
-hexadecimal:       { match: /0[xX][0-9A-Fa-f]+/, value: (x: string) => (parseInt(x,16)) },
+  hexadecimal:       { match: /0[xX][0-9A-Fa-f]+/, value: (x: string) => (parseInt(x,16)) },
 
-  number:       { match: /[-]?[0-9]+(?:.[0-9]+(?:[eE][+-]?[0-9]+)?)?/, value: (x: string) => (parseFloat(x)) },
+  number:       { match: /[-]?[0-9]+(?:\.[0-9]+(?:[eE][+-]?[0-9]+)?)?/, value: (x: string) => (parseFloat(x)) },
   // Identifiers
   identifier:   /[a-zA-Z_][a-zA-Z0-9_]*/,
 

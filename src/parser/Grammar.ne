@@ -4,6 +4,7 @@
 
 import {
   Addition,
+  Division,
   Assignment,
   CompareEqual,
   CompareLessOrEqual,
@@ -50,8 +51,9 @@ addsub ->
 
 muldiv ->
     muldiv "*" aexp         {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
+  | muldiv "/" aexp         {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
   | avalue                  {% id %}
-
+  
 avalue ->
     "(" aexp ")"            {% ([, aexp, ]) => (aexp) %}
   | number                  {% ([num]) => (new Numeral(num)) %}
