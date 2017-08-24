@@ -1,13 +1,13 @@
-import { BExp } from './ASTNode';
+import { Exp } from './ASTNode';
 
 /**
   Representación de las negaciones de expresiones booleanas.
 */
-export class Negation implements BExp {
+export class Negation implements Exp {
 
-  exp: BExp;
+  exp: Exp;
 
-  constructor(exp: BExp) {
+  constructor(exp: Exp) {
     this.exp = exp;
   }
 

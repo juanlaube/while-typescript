@@ -3,7 +3,7 @@ import { Exp } from './ASTNode';
 /**
   Representación de las comparaciones por igual.
 */
-export class CompareEqual implements Exp {
+export class CompareGreatOrEqual implements Exp {
 
   lhs: Exp;
   rhs: Exp;
@@ -14,10 +14,10 @@ export class CompareEqual implements Exp {
   }
 
   toString(): string {
-    return `CompareEqual(${this.lhs.toString()}, ${this.rhs.toString()})`;
+    return `CompareGreatOrEqual(${this.lhs.toString()}, ${this.rhs.toString()})`;
   }
 
   unparse(): string {
-    return `(${this.lhs.unparse()} == ${this.rhs.unparse()})`;
+    return `(${this.lhs.unparse()} >= ${this.rhs.unparse()})`;
   }
 }

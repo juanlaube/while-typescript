@@ -1,9 +1,9 @@
-import { AExp } from './ASTNode';
+import { Exp } from './ASTNode';
 
 /**
   Representación de constantes numéricas o numerales.
 */
-export class Numeral implements AExp {
+export class Numeral implements Exp {
 
   value: number;
 

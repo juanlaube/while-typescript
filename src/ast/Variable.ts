@@ -1,9 +1,9 @@
-import { AExp } from './ASTNode';
+import { Exp } from './ASTNode';
 
 /**
   Representación de usos de variable en expresiones.
 */
-export class Variable implements AExp {
+export class Variable implements Exp {
   id: string;
 
   constructor(id: string) {
