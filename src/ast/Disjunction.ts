@@ -3,7 +3,7 @@ import { Exp } from './ASTNode';
 /**
   Representación de conjunciones booleanas (AND).
 */
-export class Conjunction implements Exp {
+export class Disjunction implements Exp {
 
   lhs: Exp;
   rhs: Exp;
@@ -14,10 +14,10 @@ export class Conjunction implements Exp {
   }
 
   toString(): string {
-    return `Conjunction(${this.lhs.toString()}, ${this.rhs.toString()})`;
+    return `Disjunction(${this.lhs.toString()}, ${this.rhs.toString()})`;
   }
 
   unparse(): string {
-    return `(${this.lhs.unparse()} && ${this.rhs.unparse()})`;
+    return `(${this.lhs.unparse()} || ${this.rhs.unparse()})`;
   }
 }

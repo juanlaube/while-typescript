@@ -3,7 +3,7 @@ import { Exp } from './ASTNode';
 /**
   Representación de multiplicaciones.
 */
-export class Multiplication implements Exp {
+export class Division implements Exp {
 
   lhs: Exp;
   rhs: Exp;
@@ -14,10 +14,10 @@ export class Multiplication implements Exp {
   }
 
   toString(): string {
-    return `Multiplication(${this.lhs.toString()}, ${this.rhs.toString()})`;
+    return `Division(${this.lhs.toString()}, ${this.rhs.toString()})`;
   }
 
   unparse(): string {
-    return `(${this.lhs.unparse()} * ${this.rhs.unparse()})`;
+    return `(${this.lhs.unparse()} / ${this.rhs.unparse()})`;
   }
 }
