@@ -4,6 +4,7 @@ export * from './ASTNode';
 // Statements
 export * from './Assignment';
 export * from './IfThenElse';
+export * from './IfThen';
 export * from './Sequence';
 export * from './WhileDo';
 

@@ -14,6 +14,7 @@ import {
   CompareLessOrEqual,
   Conjunction,
   IfThenElse,
+  IfThen,
   Multiplication,
   Negation,
   Numeral,
@@ -36,20 +37,23 @@ const lexer = new MyLexer(tokens);
 
 # Statements
 
-stmt ->
+
+stmt -> stmtelse
+  | "if" exp "then" stmt {% ([, cond, , thenBody, ]) => (new IfThen(cond, thenBody)) %}
+
+
+stmtelse ->
     identifier "=" exp ";"               {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
   | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
   | "while" exp "do" stmt                {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
-  | "if" exp "then" stmt "else" stmt     {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
-
-
+  | "if" exp "then" stmtelse "else" stmt     {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
 
 # Expressions
 
-exp ->  
+exp ->
   addsub                    {% id %}
   |conj                     {% id %}
-  
+
 # Arithmetic expressions
 
 addsub ->
@@ -62,7 +66,7 @@ muldiv ->
   | muldiv "/" exp         {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
 
   | avalue                  {% id %}
-  
+
 avalue ->
     "(" exp ")"            {% ([, exp, ]) => (exp) %}
   | number                  {% ([num]) => (new Numeral(num)) %}
