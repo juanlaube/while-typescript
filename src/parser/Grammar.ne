@@ -7,6 +7,10 @@ import {
   Assignment,
   CompareEqual,
   CompareLessOrEqual,
+  CompareMoreEqual,
+  CompareLess,
+  CompareMore,
+  CompareNotEqual,
   Conjunction,
   IfThenElse,
   Multiplication,
@@ -51,6 +55,7 @@ addsub ->
 
 muldiv ->
     muldiv "*" aexp         {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
+  | muldiv "/" aexp         {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
   | avalue                  {% id %}
 
 avalue ->
@@ -72,7 +77,11 @@ conj ->
 
 comp ->
     aexp "==" aexp          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
+  | aexp "!=" aexp          {% ([lhs, , rhs]) => (new CompareNotEqual(lhs, rhs)) %}
   | aexp "<=" aexp          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
+  | aexp ">=" aexp          {% ([lhs, , rhs]) => (new CompareMoreOrEqual(lhs, rhs)) %}
+  | aexp ">" aexp          {% ([lhs, , rhs]) => (new CompareMore(lhs, rhs)) %}
+  | aexp "<" aexp          {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
   | neg
 
 neg ->
