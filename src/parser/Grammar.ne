@@ -7,6 +7,10 @@ import {
   Division,
   Assignment,
   CompareEqual,
+  CompareLess,
+  CompareGreat,
+  CompareGreatOrEqual,
+  CompareDifferent,
   CompareLessOrEqual,
   Conjunction,
   IfThenElse,
@@ -73,6 +77,10 @@ conj ->
 comp ->
     aexp "==" aexp          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
   | aexp "<=" aexp          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
+  | aexp "<" aexp           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
+  | aexp ">" aexp           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
+  | aexp ">=" aexp          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
+  | aexp "!=" aexp          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
   | neg
 
 neg ->

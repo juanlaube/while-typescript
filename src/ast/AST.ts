@@ -17,6 +17,10 @@ export * from './Variable';
 
 // BExp
 export * from './CompareEqual';
+export * from './CompareLess';
+export * from './CompareGreat';
+export * from './CompareGreatOrEqual';
+export * from './CompareDifferent';
 export * from './CompareLessOrEqual';
 export * from './Conjunction';
 export * from './Negation';
