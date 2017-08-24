@@ -1,7 +1,6 @@
 export const tokens = {
 
   // Punctuation
-  '!':          '!',
   '&&':         '&&',
   '(':          '(',
   ')':          ')',
@@ -13,9 +12,14 @@ export const tokens = {
   '-':          '-',
   ';':          ';',
   '<=':         '<=',
+  '>=':         '>=',
+  '<':          '<',
+  '!=':         '!=',
   '==':         '==',
+  '>':          '>',
   '=':          '=',
   '||':         '||',
+  '!':          '!',
 
   // Keywords
   'do':         'do',
@@ -23,7 +27,6 @@ export const tokens = {
   'if':         'if',
   'then':       'then',
   'else':       'else',
-  'skip':       'skip',
   'true':       'true',
   'false':      'false',
 

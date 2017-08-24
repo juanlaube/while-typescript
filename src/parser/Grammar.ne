@@ -6,7 +6,11 @@ import {
   Addition,
   Assignment,
   CompareEqual,
+  CompareLess,
   CompareLessOrEqual,
+  CompareGreatOrEqual,
+  CompareGreat,
+  CompareDifferent,
   Conjunction,
   Disj,
   IfThenElse,
@@ -18,8 +22,7 @@ import {
   Substraction,
   TruthValue,
   Variable,
-  WhileDo,
-  Skip
+  WhileDo
 } from '../ast/AST';
 
 import { tokens } from './Tokens';
@@ -36,7 +39,6 @@ const lexer = new MyLexer(tokens);
 
 stmt ->
     identifier "=" exp ";"                {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
-  | "skip" ";"                            {% () => (new Skip()) %}
   | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
   | "while" bexp "do" stmt                {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
   | "if" bexp "then" stmt "else" stmt     {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
@@ -78,9 +80,13 @@ conj ->
   | comp                    {% id %}
 
 comp ->
-    aexp "==" aexp          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
+    aexp "!=" aexp          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
+  | aexp "==" aexp          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
+  | aexp "<" aexp           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
+  | aexp ">" aexp           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
+  | aexp ">=" aexp          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
   | aexp "<=" aexp          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
-  | disj                      {% id %}
+  | disj                    {% id %}
 
 disj ->
     bexp "||" neg           {% ([lhs, , rhs]) => (new Disj(lhs, rhs)) %}
