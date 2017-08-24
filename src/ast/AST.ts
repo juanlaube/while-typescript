@@ -11,6 +11,7 @@ export * from './Skip';
 // AExp
 export * from './Addition';
 export * from './Multiplication';
+export * from './Division';
 export * from './Numeral';
 export * from './Substraction';
 export * from './Variable';
@@ -21,3 +22,4 @@ export * from './CompareLessOrEqual';
 export * from './Conjunction';
 export * from './Negation';
 export * from './TruthValue';
+export * from './Disj';

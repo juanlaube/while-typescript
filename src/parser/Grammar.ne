@@ -8,8 +8,10 @@ import {
   CompareEqual,
   CompareLessOrEqual,
   Conjunction,
+  Disj,
   IfThenElse,
   Multiplication,
+  Division,
   Negation,
   Numeral,
   Sequence,
@@ -33,12 +35,16 @@ const lexer = new MyLexer(tokens);
 # Statements
 
 stmt ->
-    identifier "=" aexp ";"               {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
+    identifier "=" exp ";"                {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
   | "skip" ";"                            {% () => (new Skip()) %}
   | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
   | "while" bexp "do" stmt                {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
   | "if" bexp "then" stmt "else" stmt     {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
 
+#Exp
+exp ->
+    aexp                    {% id %}
+  | bexp                    {% id %}
 
 # Arithmetic expressions
 
@@ -52,6 +58,7 @@ addsub ->
 
 muldiv ->
     muldiv "*" aexp         {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
+  | muldiv "/" aexp         {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
   | avalue                  {% id %}
 
 avalue ->
@@ -60,7 +67,6 @@ avalue ->
   | hexNumber               {% ([num]) => (new Numeral(num)) %}
   | float                   {% ([num]) => (new Numeral(num)) %}
   | identifier              {% ([id]) => (new Variable(id)) %}
-
 
 # Boolean expressions
 
@@ -74,7 +80,11 @@ conj ->
 comp ->
     aexp "==" aexp          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
   | aexp "<=" aexp          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
-  | neg
+  | disj                      {% id %}
+
+disj ->
+    bexp "||" neg           {% ([lhs, , rhs]) => (new Disj(lhs, rhs)) %}
+  | neg                     {% id %}
 
 neg ->
     "!" bvalue              {% ([, exp]) => (new Negation(exp)) %}
