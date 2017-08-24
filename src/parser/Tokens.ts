@@ -26,7 +26,6 @@ export const tokens = {
   'if':         'if',
   'then':       'then',
   'else':       'else',
-  'skip':       'skip',
   'true':       'true',
   'false':      'false',
 
