@@ -37,59 +37,55 @@ const lexer = new MyLexer(tokens);
 
 
 # Statements
+# if true then if true then a=1; else a=2;
 
 stmt ->
-    identifier "=" exp ";"                {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
+  stmt_else
+  | "if" exp "then" stmt_else  {% ([, cond, , thenBody]) => (new IfThen(cond, thenBody)) %}
+
+stmt_else ->
+  identifier "=" exp ";"                {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
   | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
   | "while" exp "do" stmt                 {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
-  | "if" exp "then" stmt                  {% ([, cond, , thenBody]) => (new IfThen(cond, thenBody)) %}
-  | "if" exp "then" stmt "else" stmt      {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
+  | "if" exp "then" stmt_else "else" stmt {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
 
 #exp
 exp ->
-    addsub                 {% id %}
-  | conj                   {% id %}
+    exp "&&" exp1           {% ([lhs, , rhs]) => (new Conjunction(lhs, rhs)) %}
+  | exp "||" exp1           {% ([lhs, , rhs]) => (new Disjunction(lhs, rhs)) %}
+  | exp1                    {% id %}
 
-addsub ->
-    addsub "+" muldiv       {% ([lhs, , rhs]) => (new Addition(lhs, rhs)) %}
-  | addsub "-" muldiv       {% ([lhs, , rhs]) => (new Substraction(lhs, rhs)) %}
-  | muldiv                  {% id %}
+exp1 ->
+    exp1 "!=" exp2          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
+  | exp1 "==" exp2          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
+  | exp1 "<" exp2           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
+  | exp1 ">" exp2           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
+  | exp1 "<=" exp2          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
+  | exp1 ">=" exp2          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
+  | exp2                    {% id %}
 
-muldiv ->
-    muldiv "*" value       {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
-  | muldiv "/" value       {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
-  | value                  {% id %}
+exp2 ->
+    exp2 "+" exp3           {% ([lhs, , rhs]) => (new Addition(lhs, rhs)) %}
+  | exp2 "-" exp3           {% ([lhs, , rhs]) => (new Substraction(lhs, rhs)) %}
+  | exp3                    {% id %}
 
-conj ->
-    conj "&&" comp          {% ([lhs, , rhs]) => (new Conjunction(lhs, rhs)) %}
-  | comp                    {% id %}
+exp3 ->
+    exp3 "*" exp4           {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
+  | exp3 "/" exp4           {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
+  | exp4                    {% id %}
 
-comp ->
-    exp "!=" disj          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
-  | exp "==" disj          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
-  | exp "<" disj           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
-  | exp ">" disj           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
-  | exp "<=" disj          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
-  | exp ">=" disj          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
-  | disj                    {% id %}
+exp4 ->
+    "!" exp4                {% ([, exp]) => (new Negation(exp)) %}
+  | exp5                    {% id %}
 
-disj ->
-    disj "||" neg           {% ([lhs, , rhs]) => (new Disjunction(lhs, rhs)) %}
-  | neg                     {% id %}
-
-neg ->
-    "!" value              {% ([, exp]) => (new Negation(exp)) %}
-  | value                  {% id %}
-
-value ->
-    "(" exp ")"            {% ([, exp, ]) => (exp) %}
+exp5 ->
+    "(" exp ")"             {% ([, exp, ]) => (exp) %}
   | "true"                  {% () => (new TruthValue(true)) %}
   | "false"                 {% () => (new TruthValue(false)) %}
   | identifier              {% ([id]) => (new Variable(id)) %}
   | number                  {% ([num]) => (new Numeral(num)) %}
   | hexNumber               {% ([num]) => (new Numeral(num)) %}
   | float                   {% ([num]) => (new Numeral(num)) %}
-
 
 # Atoms
 
