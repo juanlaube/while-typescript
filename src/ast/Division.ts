@@ -18,6 +18,6 @@ export class Division implements AExp {
   }
 
   unparse(): string {
-    return `(${this.lhs.unparse()} + ${this.rhs.unparse()})`;
+    return `(${this.lhs.unparse()} / ${this.rhs.unparse()})`;
   }
 }
