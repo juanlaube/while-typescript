@@ -5,14 +5,15 @@
 import {
   Addition,
   Assignment,
+  CompareDifferent,
   CompareEqual,
   CompareLess,
+  CompareGreat,
   CompareLessOrEqual,
   CompareGreatOrEqual,
-  CompareGreat,
-  CompareDifferent,
   Conjunction,
-  Disj,
+  Disjunction,
+  IfThen,
   IfThenElse,
   Multiplication,
   Division,
@@ -40,18 +41,14 @@ const lexer = new MyLexer(tokens);
 stmt ->
     identifier "=" exp ";"                {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
   | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
-  | "while" bexp "do" stmt                {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
-  | "if" bexp "then" stmt "else" stmt     {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
+  | "while" exp "do" stmt                 {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
+  | "if" exp "then" stmt                  {% ([, cond, , thenBody]) => (new IfThen(cond, thenBody)) %}
+  | "if" exp "then" stmt "else" stmt      {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
 
-#Exp
+#exp
 exp ->
-    aexp                    {% id %}
-  | bexp                    {% id %}
-
-# Arithmetic expressions
-
-aexp ->
-    addsub                  {% id %}
+    addsub                 {% id %}
+  | conj                   {% id %}
 
 addsub ->
     addsub "+" muldiv       {% ([lhs, , rhs]) => (new Addition(lhs, rhs)) %}
@@ -59,48 +56,39 @@ addsub ->
   | muldiv                  {% id %}
 
 muldiv ->
-    muldiv "*" aexp         {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
-  | muldiv "/" aexp         {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
-  | avalue                  {% id %}
-
-avalue ->
-    "(" aexp ")"            {% ([, aexp, ]) => (aexp) %}
-  | number                  {% ([num]) => (new Numeral(num)) %}
-  | hexNumber               {% ([num]) => (new Numeral(num)) %}
-  | float                   {% ([num]) => (new Numeral(num)) %}
-  | identifier              {% ([id]) => (new Variable(id)) %}
-
-# Boolean expressions
-
-bexp ->
-    conj                    {% id %}
+    muldiv "*" value       {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
+  | muldiv "/" value       {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
+  | value                  {% id %}
 
 conj ->
     conj "&&" comp          {% ([lhs, , rhs]) => (new Conjunction(lhs, rhs)) %}
   | comp                    {% id %}
 
 comp ->
-    aexp "!=" aexp          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
-  | aexp "==" aexp          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
-  | aexp "<" aexp           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
-  | aexp ">" aexp           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
-  | aexp ">=" aexp          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
-  | aexp "<=" aexp          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
+    exp "!=" disj          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
+  | exp "==" disj          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
+  | exp "<" disj           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
+  | exp ">" disj           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
+  | exp "<=" disj          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
+  | exp ">=" disj          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
   | disj                    {% id %}
 
 disj ->
-    bexp "||" neg           {% ([lhs, , rhs]) => (new Disj(lhs, rhs)) %}
+    disj "||" neg           {% ([lhs, , rhs]) => (new Disjunction(lhs, rhs)) %}
   | neg                     {% id %}
 
 neg ->
-    "!" bvalue              {% ([, exp]) => (new Negation(exp)) %}
-  | bvalue                  {% id %}
+    "!" value              {% ([, exp]) => (new Negation(exp)) %}
+  | value                  {% id %}
 
-bvalue ->
-    "(" bexp ")"            {% ([, exp, ]) => (exp) %}
+value ->
+    "(" exp ")"            {% ([, exp, ]) => (exp) %}
   | "true"                  {% () => (new TruthValue(true)) %}
   | "false"                 {% () => (new TruthValue(false)) %}
   | identifier              {% ([id]) => (new Variable(id)) %}
+  | number                  {% ([num]) => (new Numeral(num)) %}
+  | hexNumber               {% ([num]) => (new Numeral(num)) %}
+  | float                   {% ([num]) => (new Numeral(num)) %}
 
 
 # Atoms

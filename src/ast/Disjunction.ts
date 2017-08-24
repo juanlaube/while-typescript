@@ -1,20 +1,20 @@
-import { BExp } from './ASTNode';
+import { Exp } from './ASTNode';
 
 /**
   Representación de conjunciones booleanas (AND).
 */
-export class Disj implements BExp {
+export class Disjunction implements Exp {
 
-  lhs: BExp;
-  rhs: BExp;
+  lhs: Exp;
+  rhs: Exp;
 
-  constructor(lhs: BExp, rhs: BExp) {
+  constructor(lhs: Exp, rhs: Exp) {
     this.lhs = lhs;
     this.rhs = rhs;
   }
 
   toString(): string {
-    return `Disj(${this.lhs.toString()}, ${this.rhs.toString()})`;
+    return `Disjunction(${this.lhs.toString()}, ${this.rhs.toString()})`;
   }
 
   unparse(): string {

@@ -1,14 +1,14 @@
-import { AExp, BExp } from './ASTNode';
+import { Exp } from './ASTNode';
 
 /**
   Representación de las comparaciones por igual.
 */
-export class CompareGreatOrEqual implements BExp {
+export class CompareGreatOrEqual implements Exp {
 
-  lhs: AExp;
-  rhs: AExp;
+  lhs: Exp;
+  rhs: Exp;
 
-  constructor(lhs: AExp, rhs: AExp) {
+  constructor(lhs: Exp, rhs: Exp) {
     this.lhs = lhs;
     this.rhs = rhs;
   }
