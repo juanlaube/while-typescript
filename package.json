@@ -5,6 +5,9 @@
   "author": "Juan Ignacio Laube",
   "license": "MIT",
   "main": "bin/main.js",
+    "scripts":{
+    "start":"node bin/main.js"
+  },
   "dependencies": {
     "@types/moo": "^0.3.0",
     "@types/nearley": "^2.9.0",
