@@ -20,8 +20,7 @@ while (true) {
     parser.feed(input);
     // Print result
     const node: ASTNode = parser.results[0];
-    console.log(parser.results);
-//    console.log(node.toString());
+    console.log(node.toString());
 
   } catch(parseError) {
     console.log(parseError);
