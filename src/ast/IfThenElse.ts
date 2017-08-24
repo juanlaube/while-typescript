@@ -1,14 +1,14 @@
-import { BExp, Stmt } from './ASTNode';
+import { Exp, Stmt } from './ASTNode';
 
 /**
   Representación de las sentencias condicionales.
 */
 export class IfThenElse implements Stmt {
-  cond: BExp;
+  cond: Exp;
   thenBody: Stmt;
   elseBody: Stmt;
 
-  constructor(cond: BExp, thenBody: Stmt, elseBody: Stmt) {
+  constructor(cond: Exp, thenBody: Stmt, elseBody: Stmt) {
     this.cond = cond;
     this.thenBody = thenBody;
     this.elseBody = elseBody;

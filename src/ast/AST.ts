@@ -7,7 +7,7 @@ export * from './IfThenElse';
 export * from './Sequence';
 export * from './WhileDo';
 
-// AExp
+// Exp
 export * from './Addition';
 export * from './Multiplication';
 export * from './Division';
@@ -15,7 +15,6 @@ export * from './Numeral';
 export * from './Substraction';
 export * from './Variable';
 
-// BExp
 export * from './CompareEqual';
 export * from './CompareLess';
 export * from './CompareGreat';

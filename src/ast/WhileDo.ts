@@ -1,13 +1,13 @@
-import { BExp, Stmt } from './ASTNode';
+import { Exp, Stmt } from './ASTNode';
 
 /**
   Representación de las iteraciones while-do.
 */
 export class WhileDo implements Stmt {
-  cond: BExp;
+  cond: Exp;
   body: Stmt;
 
-  constructor(cond: BExp, body: Stmt) {
+  constructor(cond: Exp, body: Stmt) {
     this.cond = cond;
     this.body = body;
   }
