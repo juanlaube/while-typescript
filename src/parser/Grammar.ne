@@ -51,7 +51,6 @@ stmtelse ->
 # Expressions
 
 exp ->
- # addsub                    {% id %}
   conj                     {% id %}
 
 # Arithmetic expressions
