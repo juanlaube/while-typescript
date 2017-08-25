@@ -51,8 +51,8 @@ stmtelse ->
 # Expressions
 
 exp ->
-  addsub                    {% id %}
-  |conj                     {% id %}
+ # addsub                    {% id %}
+  conj                     {% id %}
 
 # Arithmetic expressions
 
@@ -64,14 +64,15 @@ addsub ->
 muldiv ->
     muldiv "*" exp         {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
   | muldiv "/" exp         {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
+  | neg                    {% id %}
 
-  | avalue                  {% id %}
-
-avalue ->
+value ->
     "(" exp ")"            {% ([, exp, ]) => (exp) %}
   | number                  {% ([num]) => (new Numeral(num)) %}
   | hexadecimal             {% ([hex]) =>  (new Numeral(hex)) %}
   | identifier              {% ([id]) => (new Variable(id)) %}
+  | "true"                  {% () => (new TruthValue(true)) %}
+  | "false"                 {% () => (new TruthValue(false)) %}
 
 
 # Boolean expressions
@@ -81,22 +82,21 @@ conj ->
   | comp                    {% id %}
 
 comp ->
-    exp "==" exp          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
-  | exp "<=" exp          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
-  | exp "<" exp           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
-  | exp ">" exp           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
-  | exp ">=" exp          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
-  | exp "!=" exp          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
-  | neg
+    comp "==" addsub          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
+  | comp "<=" addsub          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
+  | comp "<" addsub           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
+  | comp ">" addsub           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
+  | comp ">=" addsub          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
+  | comp "!=" addsub          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
+  |addsub                      {% id %}
 
 neg ->
-    "!" bvalue              {% ([, exp]) => (new Negation(exp)) %}
-  | bvalue                  {% id %}
+    "!" value              {% ([, exp]) => (new Negation(exp)) %}
+  | value                  {% id %}
 
 bvalue ->
     "(" exp ")"            {% ([, exp, ]) => (exp) %}
-  | "true"                  {% () => (new TruthValue(true)) %}
-  | "false"                 {% () => (new TruthValue(false)) %}
+  
   | identifier              {% ([id]) => (new Variable(id)) %}
 
 
