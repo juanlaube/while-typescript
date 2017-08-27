@@ -1,9 +1,9 @@
-import { BExp } from './ASTNode';
+import { Exp } from './ASTNode';
 
 /**
   Representación de valores de verdad (cierto o falso).
 */
-export class TruthValue implements BExp {
+export class TruthValue implements Exp {
 
   value: boolean;
 

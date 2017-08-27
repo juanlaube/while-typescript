@@ -4,11 +4,17 @@
 
 import {
   Addition,
+  Division,
   Assignment,
   CompareEqual,
+  CompareLess,
+  CompareGreat,
+  CompareGreatOrEqual,
+  CompareDifferent,
   CompareLessOrEqual,
   Conjunction,
   IfThenElse,
+  IfThen,
   Multiplication,
   Negation,
   Numeral,
@@ -31,18 +37,23 @@ const lexer = new MyLexer(tokens);
 
 # Statements
 
-stmt ->
-    identifier "=" aexp ";"               {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
-  | "skip" ";"                            {% () => {} %}
-  | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
-  | "while" bexp "do" stmt                {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
-  | "if" bexp "then" stmt "else" stmt     {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
 
+stmt -> stmtelse
+  | "if" exp "then" stmt {% ([, cond, , thenBody, ]) => (new IfThen(cond, thenBody)) %}
+
+
+stmtelse ->
+    identifier "=" exp ";"               {% ([id, , exp, ]) => (new Assignment(id, exp)) %}
+  | "{" stmt:* "}"                        {% ([, statements, ]) => (new Sequence(statements)) %}
+  | "while" exp "do" stmt                {% ([, cond, , body]) => (new WhileDo(cond, body)) %}
+  | "if" exp "then" stmtelse "else" stmt     {% ([, cond, , thenBody, , elseBody]) => (new IfThenElse(cond, thenBody, elseBody)) %}
+
+# Expressions
+
+exp ->
+  conj                     {% id %}
 
 # Arithmetic expressions
-
-aexp ->
-    addsub                  {% id %}
 
 addsub ->
     addsub "+" muldiv       {% ([lhs, , rhs]) => (new Addition(lhs, rhs)) %}
@@ -50,37 +61,41 @@ addsub ->
   | muldiv                  {% id %}
 
 muldiv ->
-    muldiv "*" aexp         {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
-  | avalue                  {% id %}
+    muldiv "*" exp         {% ([lhs, , rhs]) => (new Multiplication(lhs, rhs)) %}
+  | muldiv "/" exp         {% ([lhs, , rhs]) => (new Division(lhs, rhs)) %}
+  | neg                    {% id %}
 
-avalue ->
-    "(" aexp ")"            {% ([, aexp, ]) => (aexp) %}
+value ->
+    "(" exp ")"            {% ([, exp, ]) => (exp) %}
   | number                  {% ([num]) => (new Numeral(num)) %}
+  | hexadecimal             {% ([hex]) =>  (new Numeral(hex)) %}
   | identifier              {% ([id]) => (new Variable(id)) %}
+  | "true"                  {% () => (new TruthValue(true)) %}
+  | "false"                 {% () => (new TruthValue(false)) %}
 
 
 # Boolean expressions
-
-bexp ->
-    conj                    {% id %}
 
 conj ->
     conj "&&" comp          {% ([lhs, , rhs]) => (new Conjunction(lhs, rhs)) %}
   | comp                    {% id %}
 
 comp ->
-    aexp "==" aexp          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
-  | aexp "<=" aexp          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
-  | neg
+    comp "==" addsub          {% ([lhs, , rhs]) => (new CompareEqual(lhs, rhs)) %}
+  | comp "<=" addsub          {% ([lhs, , rhs]) => (new CompareLessOrEqual(lhs, rhs)) %}
+  | comp "<" addsub           {% ([lhs, , rhs]) => (new CompareLess(lhs, rhs)) %}
+  | comp ">" addsub           {% ([lhs, , rhs]) => (new CompareGreat(lhs, rhs)) %}
+  | comp ">=" addsub          {% ([lhs, , rhs]) => (new CompareGreatOrEqual(lhs, rhs)) %}
+  | comp "!=" addsub          {% ([lhs, , rhs]) => (new CompareDifferent(lhs, rhs)) %}
+  |addsub                      {% id %}
 
 neg ->
-    "!" bvalue              {% ([, exp]) => (new Negation(exp)) %}
-  | bvalue                  {% id %}
+    "!" value              {% ([, exp]) => (new Negation(exp)) %}
+  | value                  {% id %}
 
 bvalue ->
-    "(" bexp ")"            {% ([, exp, ]) => (exp) %}
-  | "true"                  {% () => (new TruthValue(true)) %}
-  | "false"                 {% () => (new TruthValue(false)) %}
+    "(" exp ")"            {% ([, exp, ]) => (exp) %}
+  
   | identifier              {% ([id]) => (new Variable(id)) %}
 
 
@@ -88,3 +103,4 @@ bvalue ->
 
 identifier -> %identifier   {% ([id]) => (id.value) %}
 number -> %number           {% ([num]) => (num.value) %}
+hexadecimal -> %hexadecimal {% ([hex]) => (hex.value) %}

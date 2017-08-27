@@ -3,7 +3,7 @@ import { Exp } from './ASTNode';
 /**
   Representación de sumas.
 */
-export class Addition implements Exp {
+export class Division implements Exp {
 
   lhs: Exp;
   rhs: Exp;
@@ -14,10 +14,10 @@ export class Addition implements Exp {
   }
 
   toString(): string {
-    return `Addition(${this.lhs.toString()}, ${this.rhs.toString()})`;
+    return `Division(${this.lhs.toString()}, ${this.rhs.toString()})`;
   }
 
   unparse(): string {
-    return `(${this.lhs.unparse()} + ${this.rhs.unparse()})`;
+    return `(${this.lhs.unparse()} / ${this.rhs.unparse()})`;
   }
 }

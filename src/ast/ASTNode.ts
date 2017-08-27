@@ -4,16 +4,9 @@ export interface ASTNode {
 }
 
 /**
-  Categoría sintáctica de las expresiones aritméticas de While, las
-  construcciones del lenguaje que evalúan a un número.
+  Categoría sintáctica de las expresiones de While
 */
-export interface AExp extends ASTNode { }
-
-/**
-  Categoría sintáctica de las expresiones booleanas de While, las
-  construcciones del lenguaje que evalúan a un valor de verdad (booleano).
-*/
-export interface BExp extends ASTNode { }
+export interface Exp extends ASTNode { }
 
 /**
   Categoría sintáctica de las sentencias (statements) de While, las
