@@ -22,4 +22,6 @@ npm install -g nearley
 
 Clonar el repositorio y moverse en un terminal al directorio de trabajo.
 
+Instalar dependencias utilizando `npm install`.
+
 Gulp se encargará de generar la gramatica y compilar los fuentes. Para compilar el proyecto, ejecutar `gulp` desde un terminal.
