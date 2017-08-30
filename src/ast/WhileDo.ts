@@ -1,4 +1,5 @@
 import { Exp, Stmt } from './ASTNode';
+import { State } from '../interpreter/State';
 
 /**
   Representación de las iteraciones while-do.
@@ -18,5 +19,9 @@ export class WhileDo implements Stmt {
 
   unparse(): string {
     return `while ${this.cond.unparse()} do { ${this.body.unparse()} }`;
+  }
+
+  evaluate(state: State): State {
+    return undefined;
   }
 }

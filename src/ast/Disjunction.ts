@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 
 /**
   Representación de conjunciones booleanas (AND).
@@ -19,5 +20,9 @@ export class Disjunction implements Exp {
 
   unparse(): string {
     return `(${this.lhs.unparse()} || ${this.rhs.unparse()})`;
+  }
+
+  evaluate(state: State): any {
+    return undefined;
   }
 }

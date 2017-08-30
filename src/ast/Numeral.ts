@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 
 /**
   Representación de constantes numéricas o numerales.
@@ -17,5 +18,9 @@ export class Numeral implements Exp {
 
   unparse(): string {
     return `${this.value}`;
+  }
+
+  evaluate(state: State): any {
+    return undefined;
   }
 }

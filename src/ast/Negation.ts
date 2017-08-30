@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 
 /**
   Representación de las negaciones de expresiones booleanas.
@@ -17,5 +18,9 @@ export class Negation implements Exp {
 
   unparse(): string {
     return `(!${this.exp.unparse()})`;
+  }
+
+  evaluate(state: State): any {
+    return undefined;
   }
 }

@@ -1,4 +1,5 @@
 import { Exp } from './ASTNode';
+import { State } from '../interpreter/State';
 
 /**
   Representación de valores de verdad (cierto o falso).
@@ -17,5 +18,9 @@ export class TruthValue implements Exp {
 
   unparse(): string {
     return this.value ? "true" : "false";
+  }
+
+  evaluate(state: State): any {
+    return undefined;
   }
 }

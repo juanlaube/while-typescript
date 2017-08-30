@@ -1,4 +1,5 @@
 import { Stmt } from './ASTNode';
+import { State } from '../interpreter/State';
 
 /**
   Representación de las secuencias de sentencias.
@@ -25,5 +26,9 @@ export class Sequence implements Stmt {
       .map((stmt) => (stmt.toString()))
       .join(" ");
     return `{ ${statements} }`
+  }
+
+  evaluate(state: State): State {
+    return undefined;
   }
 }
