@@ -1,4 +1,4 @@
-import { AExp, Stmt } from './ASTNode';
+import { Exp, Stmt } from './ASTNode';
 
 /**
   Representación de las asignaciones de valores a variables.
@@ -6,9 +6,9 @@ import { AExp, Stmt } from './ASTNode';
 export class Assignment implements Stmt {
 
   id: string;
-  exp: AExp;
+  exp: Exp;
 
-  constructor(id: string, exp: AExp) {
+  constructor(id: string, exp: Exp) {
     this.id = id;
     this.exp = exp;
   }

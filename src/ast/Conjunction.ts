@@ -1,14 +1,14 @@
-import { BExp } from './ASTNode';
+import { Exp } from './ASTNode';
 
 /**
   Representación de conjunciones booleanas (AND).
 */
-export class Conjunction implements BExp {
+export class Conjunction implements Exp {
 
-  lhs: BExp;
-  rhs: BExp;
+  lhs: Exp;
+  rhs: Exp;
 
-  constructor(lhs: BExp, rhs: BExp) {
+  constructor(lhs: Exp, rhs: Exp) {
     this.lhs = lhs;
     this.rhs = rhs;
   }
