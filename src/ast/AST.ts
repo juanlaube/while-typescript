@@ -4,10 +4,11 @@ export * from './ASTNode';
 // Statements
 export * from './Assignment';
 export * from './IfThenElse';
+export * from './IfThen';
 export * from './Sequence';
 export * from './WhileDo';
 
-// AExp
+// Exp
 export * from './Addition';
 export * from './Multiplication';
 export * from './Division';
@@ -15,7 +16,6 @@ export * from './Numeral';
 export * from './Substraction';
 export * from './Variable';
 
-// BExp
 export * from './CompareEqual';
 export * from './CompareLessOrEqual';
 export * from './CompareNotEqual';
